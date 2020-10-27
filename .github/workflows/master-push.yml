@@ -25,7 +25,7 @@ jobs:
 
     - name: Send docker tag to Receiver repo
       run: |
-            curl -X POST https://api.github.com/repos/actions/workflows/receive-tag/dispatches \
+            curl -X POST https://api.github.com/repos/deepakjotwani/receiver/dispatches \
             -H 'Accept: application/json' \
             -u ${{ secrets.ACCESS_TOKEN }} \
             --data '{"event_type": "sample1_latestTag", "client_payload": { "sample1_latestTag": "'${GITHUB_SHA::7}'" }}'
