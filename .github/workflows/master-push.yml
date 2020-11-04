@@ -2,8 +2,8 @@
 name: Application CI Pipeline on Push
 env:
   CONTAINER_IMAGE: deepakjotwani/sample1
-  COMMIT_UNAME: $(git --no-pager show -s --format='%an' $GIT_COMMIT)
-  COMMIT_EMAIL: $(git --no-pager show -s --format='%ae' $GIT_COMMIT)
+  COMMIT_UNAME: $(git show -s --pretty=\"%an\" $GIT_COMMIT)
+  COMMIT_EMAIL: $(git show -s --pretty=\"%ae\" $GIT_COMMIT)
 on:
   push:
     branches: [master]
