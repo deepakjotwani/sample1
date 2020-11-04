@@ -25,14 +25,9 @@ jobs:
     - name: Publish docker image to dockerhub
       run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
-    - name: Git Details
-      run: | 
-           echo "Username : ${{ env.COMMIT_UNAME }}"
-           echo "Email : ${{ env.COMMIT_EMAIL }}"
-
     - name: Send docker tag to Receiver repo
       run: |
             curl -X POST https://api.github.com/repos/deepakjotwani/receiver/dispatches \
             -H 'Accept: application/json' \
             -u ${{ secrets.ACCESS_TOKEN }} \
-            --data '{"event_type": "update_tag", "client_payload": { "microserviceImage": "sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","commitEmail": "'${{ env.COMMIT_EMAIL }}'","commitUserName": "'${{ env.COMMIT_UNAME }}'","latestTag": "'${GITHUB_SHA::7}'" }}'
+            --data '{"event_type": "update_tag", "client_payload": { "microserviceImage": "sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","commitEmail": "'$(git show -s --pretty=\%ae\ $GIT_COMMIT)'","commitUserName": "'$(git show -s --pretty=\%an\ $GIT_COMMIT)'","latestTag": "'${GITHUB_SHA::7}'" }}'
