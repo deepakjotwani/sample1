@@ -2,8 +2,8 @@
 name: Application CI Pipeline on Push
 env:
   CONTAINER_IMAGE: deepakjotwani/sample1
-  COMMIT_UNAME: $(git show -s --pretty=\%an\ $GIT_COMMIT)
-  COMMIT_EMAIL: $(git show -s --pretty=\%ae\ $GIT_COMMIT)
+  COMMIT_UNAME: $(git show -s --pretty=\"%an\" $GIT_COMMIT)
+  COMMIT_EMAIL: $(git show -s --pretty=\"%ae\" $GIT_COMMIT)
 on:
   push:
     branches: [master]
@@ -14,20 +14,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build
-      run: |
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    # - name: Build
+    #   run: |
+    #     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and tag docker image
-      run: |
-        docker build . -t ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
+    # - name: Build and tag docker image
+    #   run: |
+    #     docker build . -t ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
-    - name: Publish docker image to dockerhub
-      run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
+    # - name: Publish docker image to dockerhub
+    #   run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
     - name: Send docker tag to Receiver repo
       run: |
             curl -X POST https://api.github.com/repos/deepakjotwani/receiver/dispatches \
             -H 'Accept: application/json' \
             -u ${{ secrets.ACCESS_TOKEN }} \
-            --data '{"event_type": "update_tag_test", "client_payload": {"commitUserName":"Deepak Jotwani","commitEmail":"jotwanideepak15@gmail.com", "microserviceImage": "sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","latestTag": "'${GITHUB_SHA::7}'" }}'
+            --data '{"event_type": "update_tag_test", "client_payload": {"commitUserName":${{ env.COMMIT_UNAME }},"commitEmail":${{ env.COMMIT_EMAIL }}, "microserviceImage": "sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","latestTag": "'${GITHUB_SHA::7}'" }}'
