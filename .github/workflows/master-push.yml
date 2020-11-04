@@ -2,6 +2,8 @@
 name: Application CI Pipeline on Push
 env:
   CONTAINER_IMAGE: deepakjotwani/sample1
+  COMMIT_UNAME: $(git --no-pager show -s --format='%an' $GIT_COMMIT)
+  COMMIT_EMAIL: $(git --no-pager show -s --format='%ae' $GIT_COMMIT)
 on:
   push:
     branches: [master]
@@ -24,7 +26,7 @@ jobs:
 #       run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
     - name: Github Details
-      run: echo "Git hub Actor ${{ github.actor }}"
+      run: echo "Uname ${{ env.COMMIT_UNAME }}, Email ${{ env.COMMIT_EMAIL }}"
 
 #     - name: Send docker tag to Receiver repo
 #       run: |
