@@ -20,12 +20,15 @@ jobs:
       run: |
         docker build . -t ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
-    - name: Publish docker image to dockerhub
-      run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
+#     - name: Publish docker image to dockerhub
+#       run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
-    - name: Send docker tag to Receiver repo
-      run: |
-            curl -X POST https://api.github.com/repos/deepakjotwani/receiver/dispatches \
-            -H 'Accept: application/json' \
-            -u ${{ secrets.ACCESS_TOKEN }} \
-            --data '{"event_type": "update_tag", "client_payload": { "microserviceImage":"sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","latestTag": "'${GITHUB_SHA::7}'" }}'
+    - name: Github Details
+      run: echo "Git hub Actor ${{ github.actor }}"
+
+#     - name: Send docker tag to Receiver repo
+#       run: |
+#             curl -X POST https://api.github.com/repos/deepakjotwani/receiver/dispatches \
+#             -H 'Accept: application/json' \
+#             -u ${{ secrets.ACCESS_TOKEN }} \
+#             --data '{"event_type": "update_tag", "client_payload": { "microserviceImage":"sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","latestTag": "'${GITHUB_SHA::7}'" }}'
