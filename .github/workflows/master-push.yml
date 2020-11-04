@@ -30,4 +30,4 @@ jobs:
             curl -X POST https://api.github.com/repos/deepakjotwani/receiver/dispatches \
             -H 'Accept: application/json' \
             -u ${{ secrets.ACCESS_TOKEN }} \
-            --data '{"event_type": "update_tag_l", "client_payload": { "microserviceImage": "sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","commitEmail": "'$(git show -s --pretty=\%ae\ $GIT_COMMIT)'","commitUserName": "'$(git show -s --pretty=\%an\ $GIT_COMMIT)'","latestTag": "'${GITHUB_SHA::7}'" }}'
+            --data '{"event_type": "update_tag_test", "client_payload": {"commitUserName":"'${{ env.COMMIT_UNAME }}'","commitEmail":"'${{ env.COMMIT_EMAIL }}'", "microserviceImage": "sample1-image","imageName": "'${{ env.CONTAINER_IMAGE }}'","latestTag": "'${GITHUB_SHA::7}'" }}'
