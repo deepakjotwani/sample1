@@ -37,4 +37,6 @@ jobs:
             git diff --exit-code && echo 'Already deployed' || (git commit -am "Upgrade docker tag of sample1-service to ${GITHUB_SHA::7}")
             git push origin feature/Updating-tag-sample1-ms-${GITHUB_SHA::7}
             hub pull-request -m "feat:Updating tag for Sample service" -b master -h feature/Updating-tag-sample1-ms-$GITHUB_SHA
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}      
       working-directory: receiver
