@@ -35,6 +35,6 @@ jobs:
             git checkout -b feature/Updating-tag-sample1-ms-${GITHUB_SHA::7}
             docker run -v $GITHUB_WORKSPACE/receiver/Services/base/kustomization.yaml:/app/kustomization.yaml k8s.gcr.io/kustomize/kustomize:v3.8.7 edit set image sample1-image=${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
             git diff --exit-code && echo 'Already deployed' || (git commit -am "Upgrade docker tag of sample1-service to ${GITHUB_SHA::7}")
-#            git push origin feature/Updating-tag-sample1-ms-${GITHUB_SHA::7} 
+            git push origin
 #            hub pull-request -m "feat:Updating tag for Sample service" -b master -h feature/Updating-tag-sample1-ms-$GITHUB_SHA
       working-directory: receiver
