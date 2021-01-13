@@ -16,12 +16,12 @@ jobs:
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and tag docker image
-      run: |
-        docker build . -t ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
+#     - name: Build and tag docker image
+#       run: |
+#         docker build . -t ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
-    - name: Publish docker image to dockerhub
-      run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
+#     - name: Publish docker image to dockerhub
+#       run: docker push ${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
 
     - name: Update tag in hatchery
       env:
@@ -30,7 +30,9 @@ jobs:
             git clone "https://$GITHUB_TOKEN@github.com/deepakjotwani/receiver.git"
             git config --global user.email "dpkjotwani12@gmail.com"
             git config --global user.name "deepakjotwani"
-            git checkout -b feature/Updating-tag-sample1-ms-${GITHUB_SHA::7}
-            docker run -v ./Services/base/kustomization.yaml:/app/kustomization.yaml k8s.gcr.io/kustomize/kustomize:v3.8.7 edit set image sample1-service=${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
-            git diff --exit-code && echo 'Already deployed' || (git commit -am 'Upgrade docker tag of sample1-service to ${GITHUB_SHA::7}}' && git push)
-            hub pull-request -m "feat:Updating tag for Sample service" -b master -h feature/Updating-tag-sample1-ms-${GITHUB_SHA::7}
+            cd Services/base
+            pwd
+#            git checkout -b feature/Updating-tag-sample1-ms-${GITHUB_SHA::7}
+#            docker run -v ./Services/base/kustomization.yaml:/app/kustomization.yaml k8s.gcr.io/kustomize/kustomize:v3.8.7 edit set image sample1-service=${{ env.CONTAINER_IMAGE }}:${GITHUB_SHA::7}
+#            git diff --exit-code && echo 'Already deployed' || (git commit -am 'Upgrade docker tag of sample1-service to ${GITHUB_SHA::7}}' && git push)
+#            hub pull-request -m "feat:Updating tag for Sample service" -b master -h feature/Updating-tag-sample1-ms-${GITHUB_SHA::7}
