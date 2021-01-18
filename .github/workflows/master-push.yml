@@ -30,10 +30,10 @@ jobs:
 
     - name: Importing the GPG key
       run: |
-        echo $GPG_PRIVATE_KEY | tr ',' '\n' | gpg --import
+        echo $GPG_PRIVATE_KEY | gpg --import
       shell: bash
       env:
-        GPG_PRIVATE_KEY: ${{secrets.GPG_PRIVATE_KEY}}
+        GPG_PRIVATE_KEY: ${{secrets.GPG_PRIVATE_KEY_NT}}
 
     - name: Update tag in Receiver
       run: |
