@@ -6,10 +6,6 @@ on:
   push:
     branches: [master]
 
-defaults:
-  run:
-    working-directory: ./src
-
 jobs:
   build-publish-docker:
     runs-on: ubuntu-latest
